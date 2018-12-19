@@ -1,1 +1,1 @@
-Tutorial project.
+React with Firebase tutorial project.
