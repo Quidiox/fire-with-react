@@ -4,9 +4,12 @@ import SignOut from '../SignOut'
 import * as ROUTES from '../../constants/routes'
 import UL from '../../styled-components/elements/UL'
 import LI from '../../styled-components/elements/LI'
+import { AuthUserContext } from '../Session'
 
-const Navigation = ({ authUser }) => (
-  <>{authUser ? <NavigationAuth /> : <NavigationNonAuth />}</>
+const Navigation = () => (
+  <AuthUserContext.Consumer>
+    {authUser => (authUser ? <NavigationAuth /> : <NavigationNonAuth />)}
+  </AuthUserContext.Consumer>
 )
 
 const NavigationAuth = () => (
