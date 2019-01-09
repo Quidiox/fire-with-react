@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { SignUpLink } from '../SignUp'
+import { PasswordForgetLink } from '../PasswordForget'
 import { withFirebase } from '../Firebase'
 import * as ROUTES from '../../constants/routes'
 import H1 from '../../styled-components/elements/H1'
@@ -12,6 +13,7 @@ const SignIn = () => (
   <div>
     <H1>Sign In</H1>
     <SignInForm />
+    <PasswordForgetLink />
     <SignUpLink />
   </div>
 )
@@ -25,35 +27,28 @@ const INITIAL_STATE = {
 class SignInFormBase extends Component {
   constructor(props) {
     super(props)
-
     this.state = { ...INITIAL_STATE }
   }
 
-  onSubmit = event => {
+  onSubmit = async e => {
+    e.preventDefault()
     const { email, password } = this.state
-
-    this.props.firebase
-      .doSignInWithEmailAndPassword(email, password)
-      .then(() => {
-        this.setState({ ...INITIAL_STATE })
-        this.props.history.push(ROUTES.HOME)
-      })
-      .catch(error => {
-        this.setState({ error })
-      })
-
-    event.preventDefault()
+    try {
+      await this.props.firebase.doSignInWithEmailAndPassword(email, password)
+      this.setState({ ...INITIAL_STATE })
+      this.props.history.push(ROUTES.HOME)
+    } catch (error) {
+      this.setState({ error })
+    }
   }
 
-  onChange = event => {
-    this.setState({ [event.target.name]: event.target.value })
+  onChange = e => {
+    this.setState({ [e.target.name]: e.target.value })
   }
 
   render() {
     const { email, password, error } = this.state
-
     const isInvalid = password === '' || email === ''
-
     return (
       <form onSubmit={this.onSubmit}>
         <INPUT
