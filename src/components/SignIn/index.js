@@ -8,6 +8,7 @@ import H1 from '../../styled-components/elements/H1'
 import P from '../../styled-components/elements/P'
 import INPUT from '../../styled-components/elements/INPUT'
 import BUTTON from '../../styled-components/elements/BUTTON'
+import LABEL from '../../styled-components/elements/LABEL'
 
 const SignIn = () => (
   <div>
@@ -51,20 +52,26 @@ class SignInFormBase extends Component {
     const isInvalid = password === '' || email === ''
     return (
       <form onSubmit={this.onSubmit}>
-        <INPUT
-          name="email"
-          value={email}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Email Address"
-        />
-        <INPUT
-          name="password"
-          value={password}
-          onChange={this.onChange}
-          type="password"
-          placeholder="Password"
-        />
+        <LABEL>
+          Email:
+          <INPUT
+            name="email"
+            value={email}
+            onChange={this.onChange}
+            type="text"
+            placeholder="Email Address"
+          />
+        </LABEL>
+        <LABEL>
+          Password:
+          <INPUT
+            name="password"
+            value={password}
+            onChange={this.onChange}
+            type="password"
+            placeholder="Password"
+          />
+        </LABEL>
         <BUTTON disabled={isInvalid} type="submit">
           Sign In
         </BUTTON>

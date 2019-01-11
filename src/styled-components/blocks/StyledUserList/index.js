@@ -5,7 +5,7 @@ import LI from '../../elements/LI'
 const StyledUserList = ({ users }) => (
   <UL>
     {users.map(user => (
-      <LI>
+      <LI key={user.uid}>
         username: {user.username} email: {user.email} id: {user.uid}
       </LI>
     ))}

@@ -18,6 +18,24 @@ class Firebase {
     this.db = app.database()
   }
 
+  onAuthUserListener = (next, fallback) =>
+    this.auth.onAuthStateChanged(authUser => {
+      if (authUser) {
+        this.user(authUser.uid)
+          .once('value')
+          .then(snapshot => {
+            const dbUser = snapshot.val()
+            if (!dbUser.roles) dbUser.roles = []
+            authUser = {
+              uid: authUser.uid,
+              email: authUser.email,
+              ...dbUser
+            }
+            next(authUser)
+          })
+      } else fallback()
+    })
+
   doCreateUserWithEmailAndPassword = (email, password) =>
     this.auth.createUserWithEmailAndPassword(email, password)
 
