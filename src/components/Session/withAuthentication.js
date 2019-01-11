@@ -5,14 +5,16 @@ import { withFirebase } from '../Firebase'
 const withAuthentication = Component => {
   class WithAuthentication extends React.Component {
     state = {
-      authUser: null
+      authUser: JSON.parse(localStorage.getItem('reactWithFireToken'))
     }
     componentDidMount() {
       this.listener = this.props.firebase.onAuthUserListener(
         authUser => {
+          localStorage.setItem('reactWithFireToken', JSON.stringify(authUser))
           this.setState({ authUser })
         },
         () => {
+          localStorage.removeItem('reactWithFireToken')
           this.setState({ authUser: null })
         }
       )
