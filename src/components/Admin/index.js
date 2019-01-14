@@ -30,7 +30,10 @@ class Admin extends React.Component {
     return (
       <div>
         <H1>Admin</H1>
-        <P>Restricted area! Only users with the admin role are authorized.</P>
+        <P>
+          Restricted area! Only users with the admin role are authorized to see
+          this page.
+        </P>
         {loading && <div>Loading...</div>}
         <StyledUserList users={users} />
       </div>

@@ -14,6 +14,7 @@ const SignIn = () => (
   <div>
     <H1>Sign In</H1>
     <SignInForm />
+    <SignInGoogle />
     <PasswordForgetLink />
     <SignUpLink />
   </div>
@@ -25,11 +26,38 @@ const INITIAL_STATE = {
   error: null
 }
 
-class SignInFormBase extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { ...INITIAL_STATE }
+class SignInGoogleBase extends Component {
+  state = { error: null }
+
+  onSubmit = async e => {
+    e.preventDefault()
+    try {
+      const socialAuthUser = await this.props.firebase.doSignInWithGoogle()
+      this.props.firebase.user(socialAuthUser.user.uid).set({
+        username: socialAuthUser.user.displayName,
+        email: socialAuthUser.user.email,
+        roles: []
+      })
+      this.setState({ error: null })
+      this.props.history.push(ROUTES.HOME)
+    } catch (error) {
+      this.setState(error)
+    }
   }
+  render() {
+    const { error } = this.state
+    return (
+      <form onSubmit={this.onSubmit}>
+        <button type="submit">Sign In with Google</button>
+
+        {error && <p>{error.message}</p>}
+      </form>
+    )
+  }
+}
+
+class SignInFormBase extends Component {
+  state = { ...INITIAL_STATE }
 
   onSubmit = async e => {
     e.preventDefault()
@@ -84,6 +112,8 @@ class SignInFormBase extends Component {
 
 const SignInForm = withRouter(withFirebase(SignInFormBase))
 
+const SignInGoogle = withRouter(withFirebase(SignInGoogleBase))
+
 export default SignIn
 
-export { SignInForm }
+export { SignInForm, SignInGoogle }
