@@ -1,6 +1,6 @@
 import React from 'react'
 import { withFirebase } from '../Firebase'
-import { withAuthorization } from '../Session'
+import { withAuthorization, withEmailVerification } from '../Session'
 import * as ROLES from '../../constants/roles'
 import H1 from '../../styled-components/elements/H1'
 import P from '../../styled-components/elements/P'
@@ -43,4 +43,6 @@ class Admin extends React.Component {
 
 const condition = authUser => authUser && authUser.roles.includes(ROLES.ADMIN)
 
-export default withAuthorization(condition)(withFirebase(Admin))
+export default withEmailVerification(
+  withAuthorization(condition)(withFirebase(Admin))
+)

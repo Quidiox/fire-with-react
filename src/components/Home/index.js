@@ -1,5 +1,5 @@
 import React from 'react'
-import { withAuthorization } from '../Session'
+import { withAuthorization, withEmailVerification } from '../Session'
 import H1 from '../../styled-components/elements/H1'
 import P from '../../styled-components/elements/P'
 
@@ -12,4 +12,4 @@ const Home = () => (
 
 const condition = authUser => !!authUser
 
-export default withAuthorization(condition)(Home)
+export default withEmailVerification(withAuthorization(condition)(Home))

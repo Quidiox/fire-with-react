@@ -33,7 +33,7 @@ class SignInGoogleBase extends Component {
     e.preventDefault()
     try {
       const socialAuthUser = await this.props.firebase.doSignInWithGoogle()
-      this.props.firebase.user(socialAuthUser.user.uid).set({
+      await this.props.firebase.user(socialAuthUser.user.uid).set({
         username: socialAuthUser.user.displayName,
         email: socialAuthUser.user.email,
         roles: []
