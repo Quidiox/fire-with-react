@@ -106,30 +106,19 @@ class LoginManagementBase extends Component {
 }
 
 class DefaultLoginToggle extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = { passwordOne: '', passwordTwo: '' }
-  }
-
+  state = { passwordOne: '', passwordTwo: '' }
   onSubmit = event => {
     event.preventDefault()
-
     this.props.onLink(this.state.passwordOne)
     this.setState({ passwordOne: '', passwordTwo: '' })
   }
-
   onChange = event => {
     this.setState({ [event.target.name]: event.target.value })
   }
-
   render() {
     const { onlyOneLeft, isEnabled, signInMethod, onUnlink } = this.props
-
     const { passwordOne, passwordTwo } = this.state
-
     const isInvalid = passwordOne !== passwordTwo || passwordOne === ''
-
     return isEnabled ? (
       <button
         type="button"
