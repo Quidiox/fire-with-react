@@ -35,7 +35,6 @@ class Firebase {
               providerData: authUser.providerData,
               ...dbUser
             }
-            console.log(authUser)
             next(authUser)
           })
       } else fallback()
